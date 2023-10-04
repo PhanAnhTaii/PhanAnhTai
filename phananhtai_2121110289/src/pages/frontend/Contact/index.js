@@ -5,15 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 function Contact() {
     const navigate = useNavigate();
 
-    const [contacts, setContacts] = useState([]);
-    useEffect(function () {
-        (async function () {
-            await contactservice.gettAll().then(function (result) {
-                setContacts(result.data.data);
-            });
-        })();
-    }, [navigate]);
-    const [user_id, setUserId]       = useState(0);
+  
+    const [user_id, setUserId]= useState(0);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState();

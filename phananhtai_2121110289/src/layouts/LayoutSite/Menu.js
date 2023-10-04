@@ -5,6 +5,9 @@ import Logo from '../../assets/images/Logo.png'
 import menuservice from "../../services/MenuService";
 import MenuItem from "./MenuItem";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 function Menu() {
   const [key, setKey] = useState("");
@@ -29,7 +32,7 @@ function Menu() {
   return (
     <nav className="navbar navbar-expand-lg border-top" style={{ backgroundColor: "white" }}>
       <div className="container-fluid mb-2">
-        <Link className="navbar-brand d-sm-block  fs-3 text-warning" to="#"><img src={Logo} alt="logo" style={{ width: 230, height: 50, paddingTop: 10, paddingLeft: 10 }} /></Link>
+        <Link className="navbar-brand d-sm-block  fs-3 text-warning" to="/"><img src={Logo} alt="logo" style={{ width: 230, height: 50, paddingTop: 10, paddingLeft: 10 }} /></Link>
         <button className="navbar-toggler text-white " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -40,18 +43,16 @@ function Menu() {
 
               );
             })}
-
-            -
           </ul>
           <form className="d-flex me-4" role="search">
-
-            <input className="form-control me-2" type="text"  value={key} onChange={(e) => setKey(e.target.value)} placeholder="Tìm kiếm" aria-label="Search" />
-            <Link className="btn btn-outline-success"  to={"/tim-kiem/"+key} >Search</Link>
-          </form>
-          
+            <input className="form-control me-2" type="text" value={key} onChange={(e) => setKey(e.target.value)} placeholder="Tìm kiếm" aria-label="Search" />
+            <Link className="btn btn-outline-success" to={"/tim-kiem/" + key} >Search</Link>
+          </form>        
+              <div className="me-3 "><div className="fs-3 text-danger"><Link to="thong-tin"><FontAwesomeIcon icon={faUser} /></Link></div></div>
+              <div className=" me-4" style={{ paddingBottom: 5 }}>Xin chào<br /><Link style={{ textDecorationLine: "none" }} to="/dang-nhap"><strong className='text-danger '>Đăng nhập</strong></Link></div>            
           <div className="me-4">
             <Link to="gio-hang">
-              <FaShoppingCart className="" style={{ color: "green",width:30,height:30}} />
+              <FaShoppingCart className="" style={{ color: "green", width: 30, height: 30 }} />
               {/* <span class="position-absolute  translate-middle badge rounded-pill bg-black">
                 0
                 <span class="visually-hidden">unread messages</span>

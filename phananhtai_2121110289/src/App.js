@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LayoutSite from "./layouts/LayoutSite";
 import RouterPublic from "./router/RouterPublic";
-
+import RouterPrivate from "./router/RouterPrivate";
+import LayoutAdmin from "./layouts/LayoutAdmin";
 function App() {
   return (
     <BrowserRouter>
@@ -13,7 +14,12 @@ function App() {
           })}
         </Route>
 
-       
+        <Route path='/admin' element={<LayoutAdmin />}>
+          {RouterPrivate.map(function (route, index) {
+            const Page = route.component;
+            return <Route key={index} path={route.path} element={<Page />} />
+          })}
+        </Route>
       </Routes>
     </BrowserRouter>
 
