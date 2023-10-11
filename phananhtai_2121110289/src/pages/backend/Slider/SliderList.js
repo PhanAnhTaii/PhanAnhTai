@@ -1,4 +1,4 @@
-import { FaPlus,FaRegEye,FaEdit,FaTrash } from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import sliderservice from '../../../services/SliderService';
 import { useEffect } from 'react';
@@ -29,6 +29,9 @@ function SliderList() {
                         <strong className="text-danger  ">DANH SÁCH SLIDER</strong>
                     </div>
                     <div className="col-md-6 text-end">
+                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Về Trang Chủ
+                        </Link>
                         <Link to="/admin/slider/create" className="btn btn-sm btn-outline-success">
                              <FaPlus/>Thêm 
                         </Link>

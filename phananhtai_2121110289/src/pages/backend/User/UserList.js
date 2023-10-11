@@ -1,4 +1,4 @@
-import { FaPlus, FaRegEye, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -27,6 +27,9 @@ function UserList() {
                         <strong className="text-danger">DANH SÁCH NGƯỜI DÙNG</strong>
                     </div>
                     <div className="col-md-6 text-end">
+                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Về Trang Chủ
+                        </Link>
                         <Link to="/admin/user/create" className="btn btn-sm btn-outline-success">
                             <FaPlus />Thêm
                         </Link>

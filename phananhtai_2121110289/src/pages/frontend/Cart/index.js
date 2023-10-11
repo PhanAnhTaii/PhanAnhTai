@@ -18,7 +18,7 @@ function Cart() {
   const updateQuantity = (index, quantity) => {
     const updatedCart = [...cart];
     updatedCart[index].quantity = quantity;
-    updatedCart[index].total = updatedCart[index].price * quantity;
+    updatedCart[index].total = updatedCart[index].pricesale * quantity;
     setCart(updatedCart);
     setCartCount(calculateCartCount(updatedCart));
     localStorage.setItem('cart', JSON.stringify(updatedCart)); // Cập nhật lại localStorage
@@ -74,7 +74,7 @@ function Cart() {
                           {/* End .product */}
                         </td>
                         <td className='text-center col-md-4'>{product.name}</td>
-                        <td className="price-col text-center">{product.price}</td>
+                        <td className="price-col text-center">{product.pricesale}</td>
                         <td className="quantity-col col-md-1">
                           <div className="cart-product-quantity">
                             <input
@@ -92,7 +92,7 @@ function Cart() {
                           </div>
                           {/* End .cart-product-quantity */}
                         </td>
-                        <td className="total-col text-center" >{product.total || product.price}</td>
+                        <td className="total-col text-center" >{product.total || product.pricesale}</td>
                         <td className="remove-col">
                           <button className="btn btn-sm btn-outline-danger me-1" onClick={() => removeProduct(index)}>
                             <FaTrash />

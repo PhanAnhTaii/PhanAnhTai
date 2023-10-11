@@ -26,7 +26,7 @@ function ProductItem(props) {
                     <Link to={'/chi-tiet-san-pham/' + props.product.slug}>
                         <img src={urlImage + 'product/' + props.product.image} className="img-fluid" alt="san pham" />
                     </Link>
-                </div>
+                </div>  
                 <div className="product-name p-2">
                     <Link style={{textDecorationLine:"none"}}to={'/chi-tiet-san-pham/' + props.product.slug}>
                         <h3 className="text-center fs-6 ">{props.product.name}</h3>

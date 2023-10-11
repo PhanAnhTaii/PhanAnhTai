@@ -11,14 +11,14 @@ function Header() {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <Link className="nav-link active text-white" aria-current="page" to="#">Home</Link>
+                                <Link className="nav-link active text-white" aria-current="page" to="/admin">Trang Chủ</Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link text-white" to="#">Link</Link>
                             </li>
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle text-white" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    All
+                                    
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" to="brand">Thương Hiệu</Link></li>
@@ -35,9 +35,7 @@ function Header() {
                                     <li><Link className="dropdown-item" to="voucher">Khuyến Mãi</Link></li>                                                                    
                                 </ul>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link disabled text-white">Disabled</Link>
-                            </li>
+                            
                         </ul>
                         <form className="d-flex" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

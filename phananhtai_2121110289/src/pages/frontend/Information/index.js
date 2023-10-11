@@ -1,6 +1,6 @@
 function Information() {
     return (
-         <h1>sd</h1>
+         <h1>Thông Tin Khách Hàng</h1>
      );
 }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { FaPlus,FaRegEye,FaEdit,FaTrash } from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import topicservice from '../../../services/TopicService';
 function TopicList() {
@@ -28,6 +28,9 @@ function TopicList() {
                         <strong className="text-danger  ">DANH SÁCH CHỦ ĐỀ  </strong>
                     </div>
                     <div className="col-md-6 text-end">
+                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Về Trang Chủ
+                        </Link>
                         <Link to="/admin/topic/create" className="btn btn-sm btn-outline-success">
                              <FaPlus/>Thêm 
                         </Link>

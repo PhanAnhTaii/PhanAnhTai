@@ -8,36 +8,14 @@ import { FaCar, FaCheckSquare, FaCogs, FaMinus, FaPlus, FaSyncAlt } from "react-
 
 function ProductDetail() {
     const [cart, setCart] = useState([]);
-    const [cartCount, setCartCount] = useState(0);
-    useEffect(() => {
-        const cartData = localStorage.getItem('cart');
-        if (cartData) {
-            setCart(JSON.parse(cartData));
-        }
-    }, []);
-    useEffect(() => {
-        setCartCount(calculateCartCount(cart));
-    }, [cart]);
-
-    const updateQuantity = (index, quantity) => {
-        const updatedCart = [...cart];
-        updatedCart[index].quantity = quantity;
-        updatedCart[index].total = updatedCart[index].price * quantity;
-        setCart(updatedCart);
-        setCartCount(calculateCartCount(updatedCart));
-        localStorage.setItem('cart', JSON.stringify(updatedCart)); // Cập nhật lại localStorage
-    };
+    
     const addToCart = () => {
         const productCopy = { ...product };
         const updatedCart = [...cart, productCopy];
         setCart(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
-    const calculateCartCount = (cartItems) => {
-        return cartItems.reduce((total, item) => total + item.quantity, 0);
-    };
-
-
+  
 
     const { slug } = useParams();
     const [product, setProduct] = useState([]);
@@ -53,24 +31,7 @@ function ProductDetail() {
             });
         })();
     }, [slug])
-    // let amountElement=document.getElementById('amount')
-    // let amount =amountElement.value
-    // let render=(amount)=>{
-    //     amountElement.value=amount
-    // }
-    // function Plus(){
-    //     amount++;
-    //     render(amount);
-    // }
-    // function Minus(){
-    //     if(amount<1){
-    //         amount=0;
-    //     }
-    //     else{
-    //       amount--;
-    //     render(amount);  
-    //     }
-    // }
+
     return (
         <section className="maincontent my-4">
             <div className="container ">
@@ -85,7 +46,7 @@ function ProductDetail() {
                         <h4 className="text-danger"> {product.pricesale} <sup>đ</sup></h4>
                         <div className="col-md-6 my-4" >
                             <button style={{ width: 480, height: 50 }} onClick={addToCart} className="btn btn-outline-primary table-bordered my-2"><strong>Thêm Vào Giỏ Hàng</strong></button>
-                            <button style={{ width: 480, height: 50 }} className="btn btn-success my-2"><strong>Mua Hàng</strong></button>
+                            <button style={{ width: 480, height: 50 }} to="/gio-hang"className="btn btn-success my-2"><strong>Mua Hàng</strong></button>
                         </div>
 
 

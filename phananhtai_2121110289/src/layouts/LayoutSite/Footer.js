@@ -126,6 +126,7 @@ function Footer() {
 							<Link className="me-3" to="https://www.youtube.com/@watchstore.official" style={{ textDecorationLine: "none", color: "white" }}><FaYoutube /></Link>
 							<Link className="me-3" to="https://www.instagram.com/watchstorevn/" style={{ textDecorationLine: "none", color: "white" }}><FaInstagram /></Link>
 						</ul>
+						<Link to="http://online.gov.vn/Home/WebDetails/75019?AspxAutoDetectCookieSupport=1"><img className="" style={{width:200,paddingRight:20}}src="https://webmedia.com.vn/images/2021/09/logo-da-thong-bao-bo-cong-thuong-mau-xanh.png"/></Link>
 					</div>
 
 				</div>

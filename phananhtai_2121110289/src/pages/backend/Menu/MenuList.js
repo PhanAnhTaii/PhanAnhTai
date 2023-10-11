@@ -1,4 +1,4 @@
-import { FaPlus,FaRegEye,FaEdit,FaTrash } from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import menuservice from '../../../services/MenuService';
 import { useEffect } from 'react';
@@ -28,6 +28,9 @@ function MenuList() {
                         <strong className="text-danger  ">DANH SÁCH MENU</strong>
                     </div>
                     <div className="col-md-6 text-end">
+                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Về Trang Chủ
+                        </Link>
                         <Link to="/admin/menu/create" className="btn btn-sm btn-outline-success">
                              <FaPlus/>Thêm 
                         </Link>
@@ -35,7 +38,7 @@ function MenuList() {
                 </div>
             </div>
             <div className="card-body">
-                <table className="table table-bordered table-striped table-bordered table-hover">
+                <table className="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
                             <th style={{ width: 50 }} className="text-center">#</th>
