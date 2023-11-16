@@ -1,4 +1,4 @@
-import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashRestore} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import menuservice from '../../../services/MenuService';
 import { useEffect } from 'react';
@@ -8,13 +8,19 @@ function MenuList() {
     const [menus, setMenus] = useState([]);
     useEffect(function () {
         (async function () {
-            await menuservice.gettAll().then(function (result) {
+            await menuservice.getTrash().then(function (result) {
                 setMenus(result.data.data);
             });
         })();
     }, [statusdel])
     function menuDelete(id) {
-        menuservice.sortdelete(id).then(function (result) {
+        menuservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        menuservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -25,17 +31,11 @@ function MenuList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger  ">DANH SÁCH MENU</strong>
+                        <strong className="text-danger  ">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/menu/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
-                        </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/menu/create" className="btn btn-sm btn-outline-success">
-                             <FaPlus/>Thêm 
+                    <Link to="/admin/menu" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
                     </div>
                 </div>
@@ -68,12 +68,9 @@ function MenuList() {
                            
                             <td className="text-center">{menu.created_at}</td>
                             <td className="text-center">
-                                <Link to={"/admin/menu/show/"+menu.id} className="btn btn-sm btn-outline-success me-1">
-                                     <FaRegEye/> 
-                                </Link>
-                                <Link to={"/admin/menu/update/"+menu.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                    <FaEdit/> 
-                                </Link>
+                            <button onClick={() => restore(menu.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                 <button onClick={() => menuDelete(menu.id)}className="btn btn-sm btn-outline-danger me-1">
                                      <FaTrash/> 
                                 </button>

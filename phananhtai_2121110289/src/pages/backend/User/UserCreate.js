@@ -22,7 +22,7 @@ function UserCreate() {
         user.append("email", email);
         user.append("phone", phone);
         user.append("username", username);
-        user.append("password", password);
+        user.append("password1", password);
         user.append("address", address);
         user.append("roles", roles);
         user.append("status", status);

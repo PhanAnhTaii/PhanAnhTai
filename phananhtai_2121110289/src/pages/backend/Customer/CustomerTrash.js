@@ -1,4 +1,4 @@
-import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashRestore} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -10,13 +10,19 @@ function CustomerList() {
     const [customers, setCustomers] = useState([]);
     useEffect(function () {
         (async function () {
-            await customerservice.gettAll().then(function (result) {
+            await customerservice.getTrash().then(function (result) {
                 setCustomers(result.data.data);
             });
         })();
     }, [statusdel])
     function customerDelete(id) {
-        customerservice.sortdelete(id).then(function (result) {
+        customerservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        customerservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -26,17 +32,11 @@ function CustomerList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger">DANH SÁCH KHÁCH HÀNG</strong>
+                        <strong className="text-danger">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/customer/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
-                        </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/customer/create" className="btn btn-sm btn-outline-success">
-                            <FaPlus />Thêm
+                    <Link to="/admin/customer" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
                     </div>
                 </div>
@@ -80,12 +80,9 @@ function CustomerList() {
                                 <td className="text-center">{customer.address}</td>
                                 <td className="text-center">{customer.created_at}</td>
                                 <td className="text-center">
-                                    <Link to={"/admin/customer/show/"+customer.id} className="btn btn-sm btn-outline-success me-1">
-                                        <FaRegEye />
-                                    </Link>
-                                    <Link to={"/admin/customer/update/"+customer.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                        <FaEdit />
-                                    </Link>
+                                <button onClick={() => restore(customer.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                     <button onClick={() => customerDelete(customer.id)} className="btn btn-sm btn-outline-danger me-1">
                                         <FaTrash />
                                     </button>

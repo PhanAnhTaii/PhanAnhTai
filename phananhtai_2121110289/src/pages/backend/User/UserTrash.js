@@ -1,4 +1,4 @@
-import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashRestore} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -8,13 +8,19 @@ function UserList() {
     const [users, setUsers] = useState([]);
     useEffect(function () {
         (async function () {
-            await userservice.gettAll().then(function (result) {
+            await userservice.getTrash().then(function (result) {
                 setUsers(result.data.data);
             });
         })();
     }, [statusdel])
     function userDelete(id) {
-        userservice.sortdelete(id).then(function (result) {
+        userservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        userservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -24,17 +30,11 @@ function UserList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger">DANH SÁCH NGƯỜI DÙNG</strong>
+                        <strong className="text-danger">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/user/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
-                        </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/user/create" className="btn btn-sm btn-outline-success">
-                            <FaPlus />Thêm
+                    <Link to="/admin/user" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
                     </div>
                 </div>
@@ -72,12 +72,9 @@ function UserList() {
                                 <td className="text-center">{user.roles}</td>
                                 <td className="text-center">{user.created_at}</td>
                                 <td className="text-center">
-                                    <Link to={"/admin/user/show/"+user.id} className="btn btn-sm btn-outline-success me-1">
-                                        <FaRegEye />
-                                    </Link>
-                                    <Link to={"/admin/user/update/"+user.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                        <FaEdit />
-                                    </Link>
+                                <button onClick={() => restore(user.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                     <button onClick={() => userDelete(user.id)} className="btn btn-sm btn-outline-danger me-1">
                                         <FaTrash />
                                     </button>

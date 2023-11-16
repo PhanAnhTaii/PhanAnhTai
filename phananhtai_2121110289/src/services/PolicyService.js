@@ -14,12 +14,24 @@ function update(policy,id) {
 function remove(id) {
     return httpAxios.delete(`policy/destroy/${id}`);
 }
+function sortdelete(id) {
+    return httpAxios.post(`policy/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`policy/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('policy/trash');
+ }
 const policyservice={
     getAll:getAll,
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove, 
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default policyservice;
 

@@ -26,6 +26,15 @@ function getPostTopicId(topic_id,limit){
 function getPostBySlug(slug) {
     return httpAxios.get(`post_detail/${slug}`);
  }
+ function sortdelete(id) {
+    return httpAxios.post(`post/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`post/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('post/trash');
+ }
 const postservice={
     getPostBySlug:getPostBySlug,
     getPostTopicId:getPostTopicId,
@@ -35,7 +44,10 @@ const postservice={
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove, 
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default postservice;
 

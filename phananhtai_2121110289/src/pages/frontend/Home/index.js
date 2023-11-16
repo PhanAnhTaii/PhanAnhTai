@@ -5,6 +5,10 @@ import { useState } from "react";
 import categoryservice from "../../../services/CategoryService";
 import topicservice from "../../../services/TopicService";
 import ProductHome from "./ProductHome";
+import productservice from "../../../services/ProductService";
+import ProductSale from "../Product/ProductSale";
+import ProductBest from "../Product/ProductBest";
+import ProductNew from "../Product/ProductNew";
 function Home() {
     const [categorys, setCategorys] = useState([]);
     useEffect(function () {
@@ -14,6 +18,7 @@ function Home() {
             });
         })();
     }, []);
+
     const [topics, setTopics] = useState([]);
     useEffect(function () {
         (async function () {
@@ -28,6 +33,10 @@ function Home() {
                 {categorys.map(function(category,index){
                     return <ProductHome key={index} category={category}/>
                 })}
+                <ProductNew/>
+               <ProductSale/>
+               <ProductBest/>
+               
                 {topics.map(function(topic,index){
                     return <Post key={index} topic={topic}/>
                 })}

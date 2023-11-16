@@ -20,6 +20,15 @@ function getCatparentId(parent_id) {
 function getBySlug(slug) {
     return httpAxios.get(`category/show/${slug}`);
 }
+function sortdelete(id) {
+    return httpAxios.post(`category/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`category/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('category/trash');
+ }
 const categoryservice={
     getBySlug:getBySlug,
     getCatparentId:getCatparentId,
@@ -27,7 +36,10 @@ const categoryservice={
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove, 
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default categoryservice;
 

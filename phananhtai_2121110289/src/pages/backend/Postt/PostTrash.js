@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashRestore} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import postservice from '../../../services/PostService';
 import { urlImage } from '../../../config';
@@ -9,13 +9,19 @@ function PostList() {
     const [posts, setPosts] = useState([]);
     useEffect(function () {
         (async function () {
-            await postservice.gettAll().then(function (result) {
+            await postservice.getTrash().then(function (result) {
                 setPosts(result.data.data);
             });
         })();
     }, [statusdel])
     function postDelete(id) {
-        postservice.sortdelete(id).then(function (result) {
+        postservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        postservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -26,17 +32,11 @@ function PostList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger  ">DANH SÁCH BÀI VIẾT</strong>
+                        <strong className="text-danger  ">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/post/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
-                        </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/post/create" className="btn btn-sm btn-outline-success">
-                             <FaPlus/>Thêm 
+                    <Link to="/admin/post" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
                     </div>
                 </div>
@@ -69,12 +69,9 @@ function PostList() {
                             
                             <td className="text-center">{post.created_at}</td>
                             <td className="text-center">
-                                <Link to={"/admin/post/show/"+post.id} className="btn btn-sm btn-outline-success me-1">
-                                     <FaRegEye/> 
-                                </Link>
-                                <Link to={"/admin/post/update/"+post.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                    <FaEdit/> 
-                                </Link>
+                            <button onClick={() => restore(post.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                 <button onClick={() => postDelete(post.id)}className="btn btn-sm btn-outline-danger me-1">
                                      <FaTrash/> 
                                 </button>

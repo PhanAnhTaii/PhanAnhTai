@@ -14,12 +14,24 @@ function update(customer,id) {
 function remove(id) {
     return httpAxios.delete(`customer/destroy/${id}`);
 }
+function sortdelete(id) {
+    return httpAxios.post(`customer/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`customer/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('customer/trash');
+ }
 const customerservice={
     gettAll:getAll,
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove, 
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default customerservice;
 

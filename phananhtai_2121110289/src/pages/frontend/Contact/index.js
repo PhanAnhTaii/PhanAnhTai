@@ -27,7 +27,7 @@ function Contact() {
             .then(function (res) {
                 alert(res.data.message);
                 navigate('/lien-he', { replace: true })
-
+                window.location.reload(false)
             });
 
     }

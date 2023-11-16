@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashRestore } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 
 import contactservice from '../../../services/ContactService';
@@ -9,13 +9,18 @@ function ConTactList() {
     const [contacts, setContacts] = useState([]);
     useEffect(function () {
         (async function () {
-            await contactservice.gettAll().then(function (result) {
+            await contactservice.getTrash().then(function (result) {
                 setContacts(result.data.data);
             });
         })();
     }, [statusdel])
     function contactDelete(id) {
-        contactservice.sortdelete(id).then(function (result) {
+        contactservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }function restore   (id) {
+        contactservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -26,17 +31,11 @@ function ConTactList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger  ">DANH SÁCH LIÊN HỆ</strong>
+                        <strong className="text-danger  ">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/contact/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
-                        </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/contact/create" className="btn btn-sm btn-outline-success">
-                             <FaPlus/>Thêm 
+                    <Link to="/admin/contact" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
                     </div>
                 </div>
@@ -65,12 +64,9 @@ function ConTactList() {
                             <td className="text-center">{contact.phone}</td>
                             <td className="text-center">{contact.created_at}</td>
                             <td className="text-center">
-                                <Link to={"/admin/contact/show/"+contact.id} className="btn btn-sm btn-outline-success me-1">
-                                     <FaRegEye/> 
-                                </Link>
-                                <Link to={"/admin/contact/update/"+contact.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                    <FaEdit/> 
-                                </Link>
+                            <button onClick={() => restore(contact.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                 <button onClick={() => contactDelete(contact.id)}className="btn btn-sm btn-outline-danger me-1">
                                      <FaTrash/> 
                                 </button>

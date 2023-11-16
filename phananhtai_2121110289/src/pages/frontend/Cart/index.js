@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { urlImage } from "../../../config";
 import { FaTrash } from 'react-icons/fa';
+import { useAuth } from '../Provider/UserProvider';
+import { Navigate } from 'react-router-dom';
 
 function Cart() {
   const [cart, setCart] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const {token}=useAuth();
+  
   useEffect(() => {
     const cartData = localStorage.getItem('cart');
     if (cartData) {
@@ -34,7 +38,9 @@ function Cart() {
   const calculateCartCount = (cartItems) => {
     return cartItems.reduce((total, item) => total + item.quantity, 0);
   };
-
+  if(!token){
+    return <Navigate to="/dang-nhap"/>
+  }
   return (
     <>
       <h4 className="text-danger" style={{ textAlign: 'center', fontSize: '30px', padding: '20px' }}>GIỎ HÀNG</h4>

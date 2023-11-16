@@ -1,4 +1,4 @@
-import { FaPlus, FaRegEye, FaEdit, FaTrash,FaArrowLeft,FaTrashAlt } from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash,FaArrowLeft,FaTrashRestore } from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -9,13 +9,19 @@ function CategoryList() {
     const [categorys, setCategorys] = useState([]);
     useEffect(function () {
         (async function () {
-            await categoryservice.gettAll().then(function (result) {
+            await categoryservice.getTrash().then(function (result) {
                 setCategorys(result.data.data);
             });
         })();
     }, [statusdel])
     function categoryDelete(id) {
-        categoryservice.sortdelete(id).then(function (result) {
+        categoryservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        categoryservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -25,17 +31,11 @@ function CategoryList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger">DANH SÁCH DANH MỤC</strong>
+                        <strong className="text-danger">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/category/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
-                        </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/category/create" className="btn btn-sm btn-outline-success">
-                            <FaPlus />Thêm
+                    <Link to="/admin/category" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
                     </div>
                 </div>
@@ -70,12 +70,9 @@ function CategoryList() {
                                 <td className="text-center">{category.parent_id}</td>
                                 <td className="text-center">{category.created_at}</td>
                                 <td className="text-center">
-                                    <Link to={"/admin/category/show/"+category.id} className="btn btn-sm btn-outline-success me-1">
-                                        <FaRegEye />
-                                    </Link>
-                                    <Link to={"/admin/category/update/"+category.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                        <FaEdit />
-                                    </Link>
+                                <button onClick={() => restore(category.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                     <button onClick={() => categoryDelete(category.id)}className="btn btn-sm btn-outline-danger me-1">
                                         <FaTrash />
                                     </button>

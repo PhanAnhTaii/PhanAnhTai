@@ -14,12 +14,24 @@ function update(brand,id) {
 function remove(id) {
     return httpAxios.delete(`brand/destroy/${id}`);
 }
+function sortdelete(id) {
+    return httpAxios.post(`brand/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`brand/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('brand/trash');
+ }
 const brandservice={
     gettAll:getAll,
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove,
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default brandservice;
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashRestore} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import topicservice from '../../../services/TopicService';
 function TopicList() {
@@ -8,13 +8,19 @@ function TopicList() {
     const [topics, setTopics] = useState([]);
     useEffect(function () {
         (async function () {
-            await topicservice.gettAll().then(function (result) {
+            await topicservice.getTrash().then(function (result) {
                 setTopics(result.data.data);
             });
         })();
     }, [statusdel])
     function topicDelete(id) {
-        topicservice.sortdelete(id).then(function (result) {
+        topicservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        topicservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -25,18 +31,13 @@ function TopicList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger  ">DANH SÁCH CHỦ ĐỀ  </strong>
+                        <strong className="text-danger  ">THÙNG RÁC  </strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/topic/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
+                    <Link to="/admin/topic" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/topic/create" className="btn btn-sm btn-outline-success">
-                             <FaPlus/>Thêm 
-                        </Link>
+
                     </div>
                 </div>
             </div>
@@ -63,12 +64,9 @@ function TopicList() {
                             <td className="text-center">{topic.parent_id}</td>
                             <td className="text-center">{topic.created_at}</td>
                             <td className="text-center">
-                                <Link to={"/admin/topic/show/"+topic.id} className="btn btn-sm btn-outline-success me-1">
-                                     <FaRegEye/> 
-                                </Link>
-                                <Link to={"/admin/topic/update/"+topic.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                    <FaEdit/> 
-                                </Link>
+                            <button onClick={() => restore(topic.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                 <button onClick={() => topicDelete(topic.id)} className="btn btn-sm btn-outline-danger me-1">
                                      <FaTrash/> 
                                 </button>

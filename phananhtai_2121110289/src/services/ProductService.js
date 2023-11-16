@@ -33,6 +33,24 @@ function getProductSearch(key)
 {
     return httpAxios.get(`product_search/${key}`);
 }
+function getProductSale(limit,page=1){
+    return httpAxios.get(`product_sale/${limit}/${page}`);
+}
+function getProductBest(limit,page=1){
+    return httpAxios.get(`product_best/${limit}/${page}`);
+}
+function getProductNew(limit,page=1){
+    return httpAxios.get(`product_new/${limit}/${page}`);
+}
+function sortdelete(id) {
+    return httpAxios.post(`product/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`product/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('product/trash');
+ }
 const productservice={
     getProductSearch:getProductSearch,
     getProductByBrandId:getProductByBrandId,
@@ -40,11 +58,17 @@ const productservice={
     getProductBySlug:getProductBySlug,
     getProductAll:getProductAll,
     getProductHome:getProductHome,
+    getProductSale:getProductSale,
+    getProductBest:getProductBest,
+    getProductNew:getProductNew,
     gettAll:getAll,
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove, 
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default productservice;
 

@@ -18,6 +18,7 @@ function ProductItem(props) {
     const updatedCart = [...cart, productCopy];
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
+    alert("Đã thêm vào giỏ hàng!")
   };
     return (
         <div className="col-md-3 mb-3" >

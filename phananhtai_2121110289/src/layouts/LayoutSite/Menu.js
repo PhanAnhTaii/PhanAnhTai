@@ -7,11 +7,13 @@ import MenuItem from "./MenuItem";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useAuth } from "../../pages/frontend/Provider/UserProvider";
 
 
 function Menu() {
   const [key, setKey] = useState("");
   const [menus, setMenus] = useState([]);
+  const {token}=useAuth();
   useEffect(function () {
     (async function () {
       await menuservice.getByParentId('mainmenu', 0).then(function (result) {
@@ -19,16 +21,7 @@ function Menu() {
       });
     })();
   }, [])
-  // const { key } = useParams();
-  //   const [products, setProducts] = useState([]);
-  //   document.title = "Kết quả tìm kiếm";
-  //   useEffect(function () {
-  //       (async function () {
-  //           const result = await productservice.getProductSearch(key);
-  //               setProducts(result.data.products) 
 
-  //       })();
-  //   }, [key]);
   return (
     <nav className="navbar navbar-expand-lg border-top" style={{ backgroundColor: "white" }}>
       <div className="container-fluid mb-2">
@@ -49,7 +42,11 @@ function Menu() {
             <Link className="btn btn-outline-success" to={"/tim-kiem/" + key} >Search</Link>
           </form>        
               <div className="me-3 "><div className="fs-3 text-danger"><Link to="thong-tin"><FontAwesomeIcon className="text-danger"icon={faUser} /></Link></div></div>
-              <div className=" me-4" style={{ paddingBottom: 5 }}>Xin chào<br /><Link style={{ textDecorationLine: "none" }} to="/dang-nhap"><strong className='text-danger '>Đăng nhập</strong></Link></div>            
+
+              <div className=" me-4" style={{ paddingBottom: 5 }}>Xin chào<br />
+              {!token ?  (<Link style={{ textDecorationLine: "none" }} to="/dang-nhap"><strong className='text-danger '>Đăng nhập</strong></Link>) : token.name}
+             </div>            
+          
           <div className="me-4">  
             <Link to="gio-hang">
               <FaShoppingCart className="text-danger" style={{ color: "green", width: 30, height: 30 }} />
@@ -57,6 +54,10 @@ function Menu() {
                 0
                 <span class="visually-hidden">unread messages</span>
               </span> */}
+            </Link></div>
+            <div className="me-1">  
+            <Link to="/admin/login" style={{ textDecorationLine: "none", color: "black"}}>
+              <strong>Quản Trị</strong>
             </Link></div>
         </div>
       </div>

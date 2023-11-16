@@ -1,8 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useAuth } from "../../pages/frontend/Provider/UserProvider";
+import { FaSignOutAlt} from 'react-icons/fa';
+
+
 function Header() {
+    const {token,setToken}=useAuth();
+    if(!token){
+        return <Navigate to="/admin/login"/>
+    }
+    const handleSignout=()=>{
+        setToken();
+    }
+
     return (
         <section classNameName="header ">
-            <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{backgroundColor:"#031b36"}}>
+            <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{backgroundColor:"#AAAAAA"}}>
                 <div className="container-fluid ">
                     <Link className="navbar-brand text-white" to="/admin">Quản trị</Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,15 +44,23 @@ function Header() {
                                     <li><Link className="dropdown-item" to="topic">Chủ Đề</Link></li>
                                     <li><Link className="dropdown-item" to="user">Người Dùng</Link></li>                                                                    
                                     <li><Link className="dropdown-item" to="customer">Khách Hàng</Link></li>                                                                    
-                                    <li><Link className="dropdown-item" to="voucher">Khuyến Mãi</Link></li>                                                                    
+                                                                  
                                 </ul>
                             </li>
                             
                         </ul>
                         <form className="d-flex" role="search">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit">Search</button>
+                            <button className="btn btn-outline-success me-4" type="submit">Search</button>
                         </form>
+                        <div className=" me-4" style={{ paddingBottom: 5 }}>Xin chào<br />
+              {!token ?  (<Link style={{ textDecorationLine: "none" }} to="/dang-nhap"></Link>) : token.name}
+             </div>            
+                 <div>
+                 <button className="btn btn-lg btn-block" style={{paddingBottom:15}} onClick={handleSignout}> <FaSignOutAlt></FaSignOutAlt> </button>
+                 </div>
+
+             
                     </div>
                 </div>
             </nav>

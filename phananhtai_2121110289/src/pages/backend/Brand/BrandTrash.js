@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { FaPlus, FaRegEye, FaEdit, FaTrash,FaArrowLeft,FaTrashAlt } from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash,FaArrowLeft ,FaTrashRestore} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import brandservice from '../../../services/BrandService';
 import { urlImage } from '../../../config';
@@ -9,13 +9,19 @@ function BrandList() {
     const [brands, setBrands] = useState([]);
     useEffect(function () {
         (async function () {
-            await brandservice.gettAll().then(function (result) {
+            await brandservice.getTrash().then(function (result) {
                 setBrands(result.data.data);
             });
         })();
     }, [statusdel])
     function brandDelete(id) {
-        brandservice.sortdelete(id).then(function (result) {
+        brandservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        brandservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -26,18 +32,13 @@ function BrandList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger  ">DANH SÁCH THƯƠNG HIỆU</strong>
+                        <strong className="text-danger  ">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/brand/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
+                    <Link to="/admin/brand" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/brand/create" className="btn btn-sm btn-outline-success">
-                            <FaPlus />Thêm
-                        </Link>
+                        
                     </div>
                 </div>
             </div>
@@ -68,12 +69,9 @@ function BrandList() {
                             
                                 <td className="text-center">{brand.created_at}</td>
                                 <td className="text-center">
-                                    <Link to={"/admin/brand/show/" + brand.id} className="btn btn-sm btn-outline-success me-1">
-                                        <FaRegEye />
-                                    </Link>
-                                    <Link to={"/admin/brand/update/" + brand.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                        <FaEdit />
-                                    </Link>
+                                <button onClick={() => restore(brand.id)} className="btn btn-sm btn-outline-success me-1">
+                                <FaTrashRestore />
+                                    </button>
                                     <button onClick={() => brandDelete(brand.id)} className="btn btn-sm btn-outline-danger me-1">
                                         <FaTrash />
                                     </button>

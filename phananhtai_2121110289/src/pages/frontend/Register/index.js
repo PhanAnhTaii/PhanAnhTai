@@ -6,35 +6,21 @@ function Login() {
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [address, setAddress] = useState('');
-    const [roles, setRoles] = useState('');
     const [status, setStatus] = useState(1);
-
     async function userStore(event) {
-        const image = document.querySelector("#image");
+    
         event.preventDefault();
         var user = new FormData();
         user.append("name", name);
         user.append("email", email);
-        user.append("phone", phone);
         user.append("username", username);
-        user.append("password", password);
-        user.append("address", address);
-        user.append("roles", roles);
+        user.append("password1", password);
+        user.append("roles", '0');
         user.append("status", status);
-        // if (image.files.length === 0) 
-        // {
-        //     user.append("image","");
-        // }
-        // else 
-        // {
-        //     user.append("image", image.files[0]);
-        // }
-        
-        await userservice.create(user)
+
+        await userservice.register(user)
             .then(function (res) {
                 alert(res.data.message)
                 navigate('/dang-nhap', { replace: true })

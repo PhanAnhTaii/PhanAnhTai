@@ -17,13 +17,25 @@ function remove(id) {
 function getTopicId(parent_id) {
     return httpAxios.get(`topic_list/${parent_id}`);
 }
+function sortdelete(id) {
+    return httpAxios.post(`topic/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`topic/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('topic/trash');
+ }
 const topicservice={
     getTopicId:getTopicId,
     gettAll:getAll,
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove, 
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default topicservice;
 

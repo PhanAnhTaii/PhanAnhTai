@@ -9,7 +9,7 @@ function UserUpdate() {
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState();
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [password1, setPassword] = useState('');
     const [address, setAddress] = useState('');
     const [roles, setRoles] = useState('');
     const [status, setStatus] = useState(1);
@@ -20,13 +20,12 @@ function UserUpdate() {
         (async function () {
             await userservice.getById(id).then(function (result) {
                 const tmp = result.data.data;
-                
                 setName(tmp.name);
                 setEmail(tmp.email);
                 setPhone(tmp.phone);
                 setStatus(tmp.status);
                 setUsername(tmp.username);
-                setPassword(tmp.password);
+                setPassword(tmp.password1);
                 setAddress(tmp.address);
                 setRoles(tmp.roles);
             });
@@ -51,7 +50,7 @@ function UserUpdate() {
         user.append("email", email);
         user.append("phone", phone);
         user.append("username", username);
-        user.append("password", password);
+        user.append("password1", password1);
         user.append("address", address);
         user.append("roles", roles);
         user.append("status", status);
@@ -115,7 +114,7 @@ function UserUpdate() {
                     <div className="col-md-3">
                     <div className="mb-3">
                             <label htmlFor="name">Mật Khẩu</label>
-                            <input type="password" name="name" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control"></input>
+                            <input type="password" name="name" value={password1} onChange={(e) => setPassword(e.target.value)} className="form-control"></input>
                         </div>
                     <div className="mb-3">
                             <label htmlFor="name">Vai Trò</label>

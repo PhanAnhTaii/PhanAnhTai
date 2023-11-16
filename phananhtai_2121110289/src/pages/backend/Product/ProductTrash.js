@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashRestore} from 'react-icons/fa';
 import { Link} from "react-router-dom";
 import { urlImage } from '../../../config';
 import productservice from '../../../services/ProductService';
@@ -9,13 +9,19 @@ function ProductList() {
     const [products, setProducts] = useState([]);
     useEffect(function () {
         (async function () {
-            await productservice.gettAll().then(function (result) {
+            await productservice.getTrash().then(function (result) {
                 setProducts(result.data.data);
             });
         })();
     }, [statusdel])
     function productDelete(id) {
-        productservice.sortdelete(id).then(function (result) {
+        productservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        productservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -27,17 +33,11 @@ function ProductList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger  ">DANH SÁCH SẢN PHẨM</strong>
+                        <strong className="text-danger  ">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/product/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
-                        </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/product/create" className="btn btn-sm btn-outline-success">
-                             <FaPlus/>Thêm 
+                    <Link to="/admin/product" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
                     </div>
                 </div>
@@ -75,12 +75,9 @@ function ProductList() {
                             <td className="text-center">{product.pricesale}</td>
                             <td className="text-center">{product.created_at}</td>
                             <td className="text-center">
-                                <Link to={"/admin/product/show/"+product.id} className="btn btn-sm btn-outline-success me-1">
-                                     <FaRegEye/> 
-                                </Link>
-                                <Link to={"/admin/product/update/"+product.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                    <FaEdit/> 
-                                </Link>
+                            <button onClick={() => restore(product.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                 <button onClick={() => productDelete(product.id)}className="btn btn-sm btn-outline-danger me-1">
                                      <FaTrash/> 
                                 </button>

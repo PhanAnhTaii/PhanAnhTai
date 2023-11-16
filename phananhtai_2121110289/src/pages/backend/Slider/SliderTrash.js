@@ -1,4 +1,4 @@
-import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashAlt} from 'react-icons/fa';
+import { FaPlus, FaRegEye, FaEdit, FaTrash ,FaArrowLeft,FaTrashRestore} from 'react-icons/fa';
 import { Link } from "react-router-dom";
 import sliderservice from '../../../services/SliderService';
 import { useEffect } from 'react';
@@ -9,13 +9,19 @@ function SliderList() {
     const [sliders, setSliders] = useState([]);
     useEffect(function () {
         (async function () {
-            await sliderservice.gettAll().then(function (result) {
+            await sliderservice.getTrash().then(function (result) {
                 setSliders(result.data.data);
             });
         })();
     }, [statusdel])
     function sliderDelete(id) {
-        sliderservice.sortdelete(id).then(function (result) {
+        sliderservice.remove(id).then(function (result) {
+            console.log(result.data.message);
+            setStatusDel(result.data.id);
+        });
+    }
+    function restore(id) {
+        sliderservice.restore(id).then(function (result) {
             console.log(result.data.message);
             setStatusDel(result.data.id);
         });
@@ -26,17 +32,11 @@ function SliderList() {
             <div className="card-header">
                 <div className="row">
                     <div className="col-md-6">
-                        <strong className="text-danger  ">DANH SÁCH SLIDER</strong>
+                        <strong className="text-danger  ">THÙNG RÁC</strong>
                     </div>
                     <div className="col-md-6 text-end">
-                    <Link to={"/admin/slider/trash"} className="btn btn-sm btn-outline-primary  me-2" >
-                            <FaTrashAlt /> Thùng rác
-                        </Link>
-                    <Link to="/admin" className="btn btn-sm btn-outline-warning  me-2">
-                            <FaArrowLeft />Về Trang Chủ
-                        </Link>
-                        <Link to="/admin/slider/create" className="btn btn-sm btn-outline-success">
-                             <FaPlus/>Thêm 
+                    <Link to="/admin/slider" className="btn btn-sm btn-outline-warning  me-2">
+                            <FaArrowLeft />Quay Lại
                         </Link>
                     </div>
                 </div>
@@ -73,12 +73,9 @@ function SliderList() {
                            
                             <td className="text-center">{slider.created_at}</td>
                             <td className="text-center">
-                                <Link to={"/admin/slider/show/"+slider.id} className="btn btn-sm btn-outline-success me-1">
-                                     <FaRegEye/> 
-                                </Link>
-                                <Link to={"/admin/slider/update/"+slider.id} className="btn btn-sm btn-outline-primary me-1 ">
-                                    <FaEdit/> 
-                                </Link>
+                            <button onClick={() => restore(slider.id)}className="btn btn-sm btn-outline-success me-1">
+                            <FaTrashRestore />
+                                </button>
                                 <button onClick={() => sliderDelete(slider.id)}className="btn btn-sm btn-outline-danger me-1">
                                      <FaTrash/> 
                                 </button>

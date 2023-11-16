@@ -18,13 +18,25 @@ function getByParentId(position,parent_id)
 {
     return httpAxios.get(`menu_list/${position}/${parent_id}`);
 }
+function sortdelete(id) {
+    return httpAxios.post(`menu/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`menu/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('menu/trash');
+ }
 const menuservice={
     getByParentId:getByParentId,
     gettAll:getAll,
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove, 
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default menuservice;
 

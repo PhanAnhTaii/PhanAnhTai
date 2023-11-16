@@ -72,7 +72,7 @@ function UserShow(){
                         </tr>
                         <tr>
                             <td>Mật Khẩu</td>
-                            <td>{user.password}  </td>
+                            <td>{user.password1}  </td>
                         </tr>
                         <tr>
                             <td>Địa Chỉ</td>

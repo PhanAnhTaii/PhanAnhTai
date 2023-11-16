@@ -14,12 +14,24 @@ function update(order,id) {
 function remove(id) {
     return httpAxios.delete(`order/destroy/${id}`);
 }
+function sortdelete(id) {
+    return httpAxios.post(`order/sortdelete/${id}`);
+}
+function restore(id) {
+    return httpAxios.post(`order/restore/${id}`);
+}
+function getTrash() {
+    return httpAxios.get('order/trash');
+ }
 const orderservice={
     gettAll:getAll,
     getById:getById,
     create:create,
     update:update,
-    remove:remove
+    remove:remove, 
+    getTrash:getTrash,
+    restore:restore,
+    sortdelete,sortdelete
 }
 export default orderservice;
 
